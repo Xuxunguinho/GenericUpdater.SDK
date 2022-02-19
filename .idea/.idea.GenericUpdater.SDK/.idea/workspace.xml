@@ -6,14 +6,7 @@
     <projectFile>UpdaterSample/UpdaterSample.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fffeb384-f77f-4c94-aae4-14956ea549b2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ConfigFile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GenericUpdater.SDK.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GenericUpdater.SDK.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Updater.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Utils.cs" afterDir="false" />
-    </list>
+    <list default="true" id="fffeb384-f77f-4c94-aae4-14956ea549b2" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -129,7 +122,7 @@
       <workItem from="1644694736412" duration="4996000" />
       <workItem from="1644763325982" duration="13720000" />
       <workItem from="1645111459442" duration="169000" />
-      <workItem from="1645265420147" duration="8506000" />
+      <workItem from="1645265420147" duration="9186000" />
     </task>
     <servers />
   </component>
