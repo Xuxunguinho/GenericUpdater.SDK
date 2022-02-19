@@ -23,6 +23,7 @@ namespace GenericUpdater.SDK
 
         public event DownloadProgressChangedEventHandler DownloadProgressChanged;
         public event AsyncCompletedEventHandler DownloadCompleted;
+
         /// <summary>
         ///  Initialize Updater
         /// </summary>
@@ -40,22 +41,26 @@ namespace GenericUpdater.SDK
             try
             {
                 if (!Utils.IsConnectedToInternet())
-                    throw new Exception("Error connecting to server, please check your internet connection");
+                    throw new NoInternetConnectionException(
+                        "Error connecting to server, please check your internet connection");
                 // get info from Url
-               
                 var jsonText = await GetJsonConfigFromUrl();
                 ConfigFile = GenerateConfigFromJsonFile(jsonText);
-
+                // file Path
                 UpdateLocalFileName = Path.Combine(_updatesPath + "//" + ConfigFile?.FileName);
                 // comparing versions
                 var actVersion = new Version(actualVersion);
-                var serverVersion = new Version(ConfigFile.Version);
+
+                var serverVersion = new Version(ConfigFile?.Version ?? string.Empty);
                 return serverVersion > actVersion;
+            }
+            catch (NoInternetConnectionException ex)
+            {
+                throw new NoInternetConnectionException(ex.Message);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                throw new Exception(e.Message);
             }
         }
 
@@ -63,21 +68,15 @@ namespace GenericUpdater.SDK
         {
             try
             {
-                Console.WriteLine(UpdateLocalFileName);
                 if (!File.Exists(UpdateLocalFileName)) return false;
                 var info = new FileInfo(UpdateLocalFileName);
                 var vInfo = FileVersionInfo.GetVersionInfo(UpdateLocalFileName);
                 var vLocal = new Version(vInfo.ProductVersion);
                 var v1 = new Version(ConfigFile.Version);
-                Console.WriteLine(info.Length);
-                Console.WriteLine(info.Length);
-                Console.WriteLine(ConfigFile.FileSize);
-                Console.WriteLine(v1 == vLocal);
                 return v1 == vLocal && Math.Abs(info.Length - ConfigFile.FileSize) < 1;
             }
             catch (Exception e)
-            { 
-                Console.WriteLine(e.Message);
+            {
                 throw new Exception(e.Message);
             }
         }
@@ -98,7 +97,6 @@ namespace GenericUpdater.SDK
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 throw new Exception(e.Message);
             }
         }
@@ -181,23 +179,30 @@ namespace GenericUpdater.SDK
         {
             try
             {
+                //chek internet connection
+                if (!Utils.IsConnectedToInternet())
+                    throw new NoInternetConnectionException(
+                        "Error connecting to server, please check your internet connection");
                 // handling download progress event
                 _webClient.DownloadProgressChanged += (sender, args) => OnDownloadProgressChanged(args);
                 _webClient.DownloadFileCompleted += (sender, args) => OnDownloadCompleted(args);
                 // download file
                 if (!Directory.Exists(_updatesPath))
                     Directory.CreateDirectory(_updatesPath);
-              
+
                 _webClient.DownloadFileAsync(new Uri(ConfigFile.FileUrl),
                     UpdateLocalFileName);
             }
             catch (UriFormatException)
             {
-                throw new Exception("The file download address is not in the correct format");
+                throw new UriFormatException("The file download address is not in the correct format");
+            }
+            catch (NoInternetConnectionException ex)
+            {
+                throw new NoInternetConnectionException(ex.Message);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 throw new Exception(e.Message);
             }
         }
