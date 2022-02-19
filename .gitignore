@@ -1,0 +1,8 @@
+bin/
+UpdaterSample/
+Configurator/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+GenericUpdaterDemo/

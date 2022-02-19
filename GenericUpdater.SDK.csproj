@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="GenericUpdaterDemo\**" />
+      <Compile Remove="Configurator\**" />
+      <Compile Remove="UpdaterSample\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="GenericUpdaterDemo\**" />
+      <EmbeddedResource Remove="Configurator\**" />
+      <EmbeddedResource Remove="UpdaterSample\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="GenericUpdaterDemo\**" />
+      <None Remove="Configurator\**" />
+      <None Remove="UpdaterSample\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
+</Project>
